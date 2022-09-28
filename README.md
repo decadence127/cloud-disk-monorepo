@@ -2,7 +2,7 @@
 
 Pet project. Microservice architecture practice.
 
-Backend Stack: NodeJS, Express, Typescript, RabbitMQ.
+Backend Stack: NodeJS, Express, Typescript, RabbitMQ, Docker, Kubernetes.
 
 Frontend Stack: ReactJS, RTK-Query, Redux, Typescript
 
