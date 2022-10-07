@@ -20,7 +20,7 @@ app.use(router);
 (async () => {
   try {
     await connectToDb();
-    
+  
     app.listen(PORT, () => {
       console.log(`Auth service has been started on ${PORT} port.`);
     });
