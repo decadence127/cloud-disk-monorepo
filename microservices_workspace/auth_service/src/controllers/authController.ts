@@ -11,6 +11,20 @@ class AuthController {
     }
   }
 
-  async registration(req: express.Request, res: express.Response) {}
+  async registration(req: express.Request, res: express.Response) {
+    try {
+      const { email, name, surname, phoneNumber, password } = req.body;
+      const result = await authService.registration({
+        email,
+        name,
+        surname,
+        password,
+        phoneNumber,
+      });
+      res.send(result);
+    } catch (e) {
+      res.status(500).send({ msg: "Internal Error" });
+    }
+  }
 }
 export default new AuthController();

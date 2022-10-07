@@ -3,6 +3,7 @@ export interface IUser {
   surname: string;
   email: string;
   avatar?: string;
+  password: string;
 }
 
 export interface LoginUserData
@@ -11,4 +12,5 @@ export interface LoginUserData
 }
 export interface RegUserData extends LoginUserData, Omit<IUser, "avatar"> {
   phoneNumber: string;
+  password: string;
 }
