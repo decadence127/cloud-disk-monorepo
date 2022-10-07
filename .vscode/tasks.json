@@ -1,0 +1,23 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "microservies_workspace/auth_service",
+			"problemMatcher": [],
+			"label": "npm: dev - microservies_workspace/auth_service",
+			"detail": "ts-node index.ts"
+		},
+		{
+			"type": "typescript",
+			"tsconfig": "microservices_workspace/auth_service/tsconfig.json",
+			"option": "watch",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"group": "build",
+			"label": "tsc: watch - microservices_workspace/auth_service/tsconfig.json"
+		}
+	]
+}
