@@ -1,5 +1,6 @@
 version: '3.2'
 services:
+
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
     container_name: 'rabbitmq'
@@ -11,6 +12,70 @@ services:
       - ~/docker-conf/rabbitmq/data/:/var/log/rabbitmq
     networks:
       - rabbitmq_nodejs
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6380:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+
+  mongodb:
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/apps/mongo:/data/db
+    environment:
+      #REDIS_HOST: cache
+      #REDIS_PORT: 6379
+      #REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      MONGO_INIT_USERNAME: test
+      MONGO_INIT_PASSWORD: testpass
+  
+  auth:
+    build:
+      context: ./microservices_workspace/auth_service
+      args:
+        - NODE_ENV=development
+    ports:
+      - "5006:5006"
+    volumes:
+      - ./auth_service:/app
+    environment:
+      - SERVICE=auth
+    env_file:
+      - ./microservices_workspace/auth_service/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  file:
+    build:
+      context: ./microservices_workspace/file_service
+      args:
+        - NODE_ENV=development
+    ports:
+      - "5007:5007"
+    volumes:
+      - ./file_service:/app
+    environment:
+      - SERVICE=file
+    env_file:
+      - ./microservices_workspace/file_service/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+# Redis for analytics service (!)
+
 networks: 
   rabbitmq_nodejs:
     driver: bridge
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local
+
