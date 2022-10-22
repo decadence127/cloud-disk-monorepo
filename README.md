@@ -18,7 +18,19 @@ Install cloud-disk-app with docker-compose
   docker-compose up -d --build
   docker-compose up
 ```
+Also deployment is available via local Kubernetes cluster (minikube)
 
+```bash
+  cd cloud-disk-monorepo
+  kubectl apply -f ./k8s -R
+  minicube start
+ ```
+ 
+ To open live kubernetes dashboard
+ 
+ ```bash
+  minicube dashboard
+ ```
 
 ## Environment Variables
 
