@@ -26,7 +26,7 @@ Also deployment is available via local Kubernetes cluster (minikube)
   cd cloud-disk-monorepo/microservices_workspace/auth_service
   docker build -t <image_name> .
 ```
-Optional: To check whether image is broken or not after setting them all up we can compose them
+Optional: To check whether some images are broken or not after setting them all up we can compose them
 
 ```bash
   docker-compose up --build
