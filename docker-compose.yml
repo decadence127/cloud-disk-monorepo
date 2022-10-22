@@ -1,19 +1,27 @@
 version: '3.2'
+
 services:
 
   rabbitmq:
+    labels:
+      kompose.service.type: LoadBalancer
     image: rabbitmq:3.8-management-alpine
     container_name: 'rabbitmq'
     ports: 
-      - 5673:5672
-      - 15673:15672
+      - 5672:5672
+      - 15672:15672
     volumes:
       - ~/docker-conf/rabbitmq/data/:/var/lib/rabbitmq
       - ~/docker-conf/rabbitmq/data/:/var/log/rabbitmq
-    networks:
-      - rabbitmq_nodejs
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 5
 
   cache:
+    labels:
+      kompose.service.type: LoadBalancer
     image: redis:6.2-alpine
     restart: always
     ports:
@@ -23,7 +31,9 @@ services:
       - cache:/data
 
   mongodb:
-    image: mongo:5.0
+    labels:
+      kompose.service.type: LoadBalancer
+    image: mongo:6.0.2
     ports:
       - 27017:27017
     volumes:
@@ -32,10 +42,12 @@ services:
       #REDIS_HOST: cache
       #REDIS_PORT: 6379
       #REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-      MONGO_INIT_USERNAME: test
-      MONGO_INIT_PASSWORD: testpass
+      MONGO_INIT_USERNAME: root
+      MONGO_INIT_PASSWORD: rootuser
 
   client:
+    labels:
+      kompose.service.type: LoadBalancer
     build:
       context: ./client
     volumes:
@@ -44,11 +56,13 @@ services:
     env_file:
     - ./client/.env
     ports:
-      - 3001:3000
+      - 3000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
   
   auth:
+    labels:
+      kompose.service.type: LoadBalancer
     build:
       context: ./microservices_workspace/auth_service
       args:
@@ -61,11 +75,14 @@ services:
       - SERVICE=auth
     env_file:
       - ./microservices_workspace/auth_service/.env
+    restart: on-failure
     depends_on:
       - mongodb
       - rabbitmq
 
   file:
+    labels:
+      kompose.service.type: LoadBalancer
     build:
       context: ./microservices_workspace/file_service
       args:
@@ -78,14 +95,15 @@ services:
       - SERVICE=file
     env_file:
       - ./microservices_workspace/file_service/.env
+    restart: on-failure
     depends_on:
       - mongodb
       - rabbitmq
 # Redis for analytics service (!)
 
-networks: 
-  rabbitmq_nodejs:
-    driver: bridge
+# networks: 
+#   rabbitmq_nodejs:
+#     driver: bridge
 volumes:
   db:
     driver: local

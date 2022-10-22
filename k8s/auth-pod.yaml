@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: auth
+  name: auth
+spec:
+  containers:
+  - env:
+    - name: AUTH_SERVICE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: AUTH_SERVICE_PORT
+          name: auth-service--env
+    - name: MONGO_URI
+      valueFrom:
+        configMapKeyRef:
+          key: MONGO_URI
+          name: auth-service--env
+    - name: SERVICE
+      value: auth
+    image: node:13.12.0-alpine
+    name: auth
+    ports:
+    - containerPort: 5006
+    resources: {}
+    volumeMounts:
+    - mountPath: /app
+      name: auth-claim0
+  restartPolicy: OnFailure
+  volumes:
+  - name: auth-claim0
+    persistentVolumeClaim:
+      claimName: auth-claim0
+status: {}

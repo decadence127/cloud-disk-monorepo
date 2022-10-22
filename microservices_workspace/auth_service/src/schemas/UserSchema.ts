@@ -12,7 +12,7 @@ export const UserSchema = new Schema<IUserSchema>({
   name: { type: String, required: true },
   surname: { type: String, required: true },
   email: { type: String, required: true },
-  password: { type: String, requred: true },
+  password: { type: String, required: true },
   createdAt: { type: Date, default: new Date() },
   updatedAt: { type: Date, default: new Date() },
   avatar: String,

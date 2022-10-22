@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service--env
+data:
+  AUTH_SERVICE_PORT: "5006"
+  MONGO_URI: "mongodb://mongodb:27017"

@@ -3,13 +3,13 @@ import { authRepository } from "./../repositories/authRepository";
 import { IUser, LoginUserData, RegUserData } from "../interfaces/User";
 import bcrypt from "bcrypt";
 class AuthService {
-  async login(userData: LoginUserData) {
-    const existingUser = await authRepository.getUserByEmail(userData.email);
+  async login({ email, password }: LoginUserData) {
+    const existingUser = await authRepository.getUserByEmail(email);
     if (!existingUser) {
       return { msg: "This user does not exist." };
     }
     const comparePasswords = bcrypt.compareSync(
-      userData.password,
+      password,
       existingUser.password
     );
     if (!comparePasswords) {

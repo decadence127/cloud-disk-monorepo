@@ -1,4 +1,11 @@
-FROM node:13.12.0-alpine
+FROM nginx:1.17
+RUN apt-get update && apt-get install -y curl
+RUN curl --silent --location https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y \
+  nodejs
+RUN echo "Node: " && node -v
+RUN echo "NPM: " && npm -v
+COPY build/ /usr/share/nginx/html
 
 WORKDIR /
 
