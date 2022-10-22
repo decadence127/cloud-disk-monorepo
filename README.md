@@ -20,6 +20,19 @@ Install cloud-disk-app with docker-compose
 ```
 Also deployment is available via local Kubernetes cluster (minikube)
 
+
+1. Build all docker images
+```bash
+  cd cloud-disk-monorepo/microservices_workspace/auth_service
+  docker build -t <image_name> .
+```
+Optional: To check whether image is broken or not after setting them all up we can compose them
+
+```bash
+  docker-compose up --build
+```
+
+2. Create Kubernetes recource files and start a local K8s cluster.
 ```bash
   cd cloud-disk-monorepo
   kubectl apply -f ./k8s -R
