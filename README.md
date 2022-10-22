@@ -7,3 +7,24 @@ Backend Stack: NodeJS, Express, Typescript, RabbitMQ, Docker, Kubernetes.
 Frontend Stack: ReactJS, RTK-Query, Redux, Typescript
 
 Databases: MongoDb, Redis
+
+
+
+## Installation and deployment
+
+Install cloud-disk-app with docker-compose
+
+```bash
+  docker-compose up -d --build
+  docker-compose up
+```
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to each services' .env file
+
+`FILE_SERVICE_PORT`
+
+`AUTH_SERVICE_PORT`
+
