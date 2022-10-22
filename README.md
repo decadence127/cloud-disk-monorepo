@@ -23,13 +23,13 @@ Also deployment is available via local Kubernetes cluster (minikube)
 ```bash
   cd cloud-disk-monorepo
   kubectl apply -f ./k8s -R
-  minicube start
+  minikube start
  ```
  
  To open live kubernetes dashboard
  
  ```bash
-  minicube dashboard
+  minikube dashboard
  ```
 
 ## Environment Variables
